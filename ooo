@@ -1,0 +1,410 @@
+# Sport\&More (Dropshipping) — Projekt React + Tailwind
+
+**Krótki opis:** Lekki, responsywny sklep dropshippingowy z sekcją hero, sekcją produktów, filtrem oraz prostą stroną produktu. Design jasny z akcentami i przejrzystą typografią.
+
+## Struktura plików
+
+```
+sport-and-more/
+├── package.json
+├── vite.config.js
+├── postcss.config.cjs
+├── tailwind.config.cjs
+├── index.html
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── assets/
+    │   └── hero.jpg (placeholder)
+    ├── components/
+    │   ├── Header.jsx
+    │   ├── Hero.jsx
+    │   ├── ProductCard.jsx
+    │   └── Footer.jsx
+    └── styles.css
+```
+
+## package.json
+
+```json
+{
+  "name": "sport-and-more",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}
+```
+
+## tailwind.config.cjs
+
+```js
+module.exports = {
+  content: ["./index.html", "./src/**/*.{js,jsx}"] ,
+  theme: {
+    extend: {
+      colors: {
+        primary: '#0ea5a4',
+        accent: '#ef4444'
+      }
+    }
+  },
+  plugins: []
+}
+```
+
+## src/main.jsx
+
+```jsx
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App'
+import './styles.css'
+
+createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
+```
+
+## src/App.jsx
+
+```jsx
+import React from 'react'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import ProductCard from './components/ProductCard'
+import Footer from './components/Footer'
+
+const DUMMY_PRODUCTS = [
+  { id:1, name:'Bezkontaktowy licznik kroków', price:39.99, img:'' },
+  { id:2, name:'Silikonowa butelka sportowa', price:19.9, img:'' },
+  { id:3, name:'Mata do ćwiczeń 6mm', price:25.0, img:'' },
+  { id:4, name:'Skakanka z licznikiem', price:15.5, img:'' }
+]
+
+export default function App(){
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white text-slate-900">
+      <Header />
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <Hero />
+
+        <section className="mt-8">
+          <h2 className="text-2xl font-semibold">Polecane produkty</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+            {DUMMY_PRODUCTS.map(p => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </section>
+
+      </main>
+      <Footer />
+    </div>
+  )
+}
+```
+
+## src/components/Header.jsx
+
+```jsx
+import React from 'react'
+export default function Header(){
+  return (
+    <header className="border-b bg-white/60 backdrop-blur sticky top-0 z-30">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="font-bold text-xl">Sport&More</div>
+          <div className="text-sm text-slate-500">Dropshipping</div>
+        </div>
+        <nav className="flex items-center gap-4">
+          <button className="hidden md:inline px-4 py-2 rounded-md">Sklep</button>
+          <button className="px-4 py-2 rounded-md bg-primary text-white">Kontakt</button>
+        </nav>
+      </div>
+    </header>
+  )
+}
+```
+
+## src/components/Hero.jsx
+
+```jsx
+import React from 'react'
+export default function Hero(){
+  return (
+    <section className="rounded-lg overflow-hidden shadow-md bg-gradient-to-r from-sky-50 to-white p-6 flex flex-col md:flex-row items-center gap-6">
+      <div className="flex-1">
+        <h1 className="text-3xl md:text-4xl font-extrabold">Sport&More — Twój sklep sportowy</h1>
+        <p className="mt-2 text-slate-600">Wybierz z wyselekcjonowanej oferty akcesoriów sportowych. Dropshipping — szybka wysyłka, łatwe zwroty.</p>
+        <div className="mt-4 flex gap-3">
+          <button className="px-4 py-2 bg-primary text-white rounded">Przeglądaj</button>
+          <button className="px-4 py-2 border rounded">O nas</button>
+        </div>
+      </div>
+      <div className="w-56 h-56 bg-slate-100 rounded flex items-center justify-center">
+        <span className="text-sm text-slate-400">Tu grafika produktu</span>
+      </div>
+    </section>
+  )
+}
+```
+
+## src/components/ProductCard.jsx
+
+```jsx
+import React from 'react'
+export default function ProductCard({product}){
+  return (
+    <article className="border rounded-md p-4 bg-white shadow-sm flex flex-col">
+      <div className="h-40 bg-slate-100 rounded flex items-center justify-center">Obraz</div>
+      <h3 className="mt-3 font-medium">{product.name}</h3>
+      <div className="mt-auto flex items-center justify-between">
+        <div className="text-lg font-semibold">€{product.price}</div>
+        <button className="px-3 py-1 bg-primary text-white rounded">Kup</button>
+      </div>
+    </article>
+  )
+}
+```
+
+## src/components/Footer.jsx
+
+```jsx
+import React from 'react'
+export default function Footer(){
+  return (
+    <footer className="mt-12 border-t py-6">
+      <div className="max-w-6xl mx-auto px-4 text-sm text-slate-500">© {new Date().getFullYear()} Sport&More — Wszystkie prawa zastrzeżone</div>
+    </footer>
+  )
+}
+```
+
+---
+
+# CryptoWallet — nowoczesny panel (inspiracja: ciemny ekran z przesłanego zdjęcia)
+
+**Krótki opis:** Dark UI, przejrzysty dashboard z portfelem, wykresem (placeholder),  sekcją transakcji i rankingiem. Perfekcyjny jako strona landing + panel.
+
+## Struktura plików
+
+```
+cryptowallet/
+├── package.json
+├── vite.config.js
+├── tailwind.config.cjs
+├── index.html
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── components/
+    │   ├── Sidebar.jsx
+    │   ├── Topbar.jsx
+    │   ├── WalletOverview.jsx
+    │   ├── MarketSentiment.jsx
+    │   └── Transactions.jsx
+    └── styles.css
+```
+
+## package.json (cryptowallet)
+
+```json
+{
+  "name": "cryptowallet",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.220.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}
+```
+
+## tailwind.config.cjs
+
+```js
+module.exports = {
+  content: ["./index.html","./src/**/*.{js,jsx}"],
+  theme: {extend: {}},
+  plugins: []
+}
+```
+
+## src/App.jsx
+
+```jsx
+import React from 'react'
+import Sidebar from './components/Sidebar'
+import Topbar from './components/Topbar'
+import WalletOverview from './components/WalletOverview'
+import MarketSentiment from './components/MarketSentiment'
+import Transactions from './components/Transactions'
+import './styles.css'
+
+export default function App(){
+  return (
+    <div className="min-h-screen bg-slate-900 text-slate-100">
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1">
+          <Topbar />
+          <main className="p-6 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 space-y-6">
+                <WalletOverview />
+                <MarketSentiment />
+              </div>
+              <Transactions />
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+## src/components/Sidebar.jsx
+
+```jsx
+import React from 'react'
+export default function Sidebar(){
+  return (
+    <aside className="w-72 bg-gradient-to-b from-slate-800 to-slate-900 border-r border-slate-700 min-h-screen p-6">
+      <div className="font-bold text-2xl mb-6">DojoWallet</div>
+      <nav className="flex flex-col gap-3 text-sm text-slate-300">
+        <button className="text-left p-3 rounded hover:bg-slate-700">Overview</button>
+        <button className="text-left p-3 rounded hover:bg-slate-700">Markets</button>
+        <button className="text-left p-3 rounded hover:bg-slate-700">Send</button>
+        <button className="text-left p-3 rounded hover:bg-slate-700">Receive</button>
+      </nav>
+    </aside>
+  )
+}
+```
+
+## src/components/Topbar.jsx
+
+```jsx
+import React from 'react'
+export default function Topbar(){
+  return (
+    <header className="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/50">
+      <div className="text-slate-300">Dashboard</div>
+      <div className="flex items-center gap-3">
+        <div className="text-sm">Zalogowany jako <strong>Użytkownik</strong></div>
+        <div className="w-9 h-9 bg-slate-700 rounded-full" />
+      </div>
+    </header>
+  )
+}
+```
+
+## src/components/WalletOverview\.jsx
+
+```jsx
+import React from 'react'
+export default function WalletOverview(){
+  return (
+    <section className="p-6 bg-gradient-to-b from-slate-800/60 to-slate-900 rounded-lg shadow-lg">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-xl font-semibold">Portfel</h3>
+          <div className="text-slate-400 mt-1">Łączne saldo</div>
+        </div>
+        <div className="text-2xl font-bold">0.872 BTC</div>
+      </div>
+
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-4 bg-slate-800 rounded">BTC 0.5</div>
+        <div className="p-4 bg-slate-800 rounded">ETH 2.1</div>
+        <div className="p-4 bg-slate-800 rounded">USDC 980,288</div>
+      </div>
+
+      <div className="mt-6 h-40 bg-slate-700/30 rounded flex items-center justify-center">Wykres (placeholder)</div>
+    </section>
+  )
+}
+```
+
+## src/components/MarketSentiment.jsx
+
+```jsx
+import React from 'react'
+export default function MarketSentiment(){
+  return (
+    <section className="p-6 bg-slate-800 rounded-lg">
+      <h4 className="font-semibold">Market Sentiment</h4>
+      <div className="mt-4 text-3xl font-bold">55</div>
+      <p className="text-slate-400 mt-2">Neutral — obserwuj rynek</p>
+    </section>
+  )
+}
+```
+
+## src/components/Transactions.jsx
+
+```jsx
+import React from 'react'
+const TX = [
+  {id:1,type:'Out',coin:'BTC',amount:'-0.02'},
+  {id:2,type:'In',coin:'ETH',amount:'+0.3'}
+]
+export default function Transactions(){
+  return (
+    <aside className="p-6 bg-slate-800 rounded-lg">
+      <h4 className="font-semibold">Ostatnie transakcje</h4>
+      <ul className="mt-4 space-y-3 text-sm text-slate-300">
+        {TX.map(t=> (
+          <li key={t.id} className="flex justify-between">
+            <div>{t.coin} · {t.type}</div>
+            <div>{t.amount}</div>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
+```
+
+---
+
+# Uruchomienie (oba projekty)
+
+1. `npm install`
+2. `npm run dev`
+
+> Uwaga: zalecam stworzyć projekt przez `npm create vite@latest` i dodać Tailwind zgodnie z dokumentacją Tailwind. W plikach powyżej masz gotowe komponenty i konfiguracje.
+
+---
+
+# Dalsze kroki i personalizacja
+
+* Chcesz, żebym dodał: integrację z systemem zamówień (API), checkout (Stripe/PayPal), lub integrację z portfelami (MetaMask)?
+* Mogę też wygenerować przykładowe grafiki tła pasujące do stylu (dark hero dla Crypto, lekko sportowy dla Sport\&More).
